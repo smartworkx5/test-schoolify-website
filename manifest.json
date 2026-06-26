@@ -1,0 +1,42 @@
+{
+  "name": "Schoolify - School Management Software",
+  "short_name": "Schoolify",
+  "description": "Cloud-based School Management Software & ERP for schools worldwide",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#04080f",
+  "theme_color": "#04080f",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/logo-192.webp",
+      "sizes": "192x192",
+      "type": "image/webp"
+    },
+    {
+      "src": "/logo-512.webp",
+      "sizes": "512x512",
+      "type": "image/webp"
+    }
+  ],
+  "categories": ["education", "business"],
+  "lang": "en",
+  "dir": "ltr",
+  "scope": "/",
+  "screenshots": [
+    {
+      "src": "/screenshot-dashboard.webp",
+      "sizes": "1280x720",
+      "type": "image/webp",
+      "form_factor": "wide",
+      "label": "Schoolify Dashboard"
+    },
+    {
+      "src": "/screenshot-mobile.webp",
+      "sizes": "750x1334",
+      "type": "image/webp",
+      "form_factor": "narrow",
+      "label": "Schoolify Mobile App"
+    }
+  ]
+}
