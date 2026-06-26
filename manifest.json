@@ -9,14 +9,14 @@
   "orientation": "portrait-primary",
   "icons": [
     {
-      "src": "/logo-192.webp",
+      "src": "/logo-192.png",
       "sizes": "192x192",
-      "type": "image/webp"
+      "type": "image/png"
     },
     {
-      "src": "/logo-512.webp",
+      "src": "/logo-512.png",
       "sizes": "512x512",
-      "type": "image/webp"
+      "type": "image/png"
     }
   ],
   "categories": ["education", "business"],
@@ -25,16 +25,16 @@
   "scope": "/",
   "screenshots": [
     {
-      "src": "/screenshot-dashboard.webp",
+      "src": "/screenshot-dashboard.png",
       "sizes": "1280x720",
-      "type": "image/webp",
+      "type": "image/png",
       "form_factor": "wide",
       "label": "Schoolify Dashboard"
     },
     {
-      "src": "/screenshot-mobile.webp",
+      "src": "/screenshot-mobile.png",
       "sizes": "750x1334",
-      "type": "image/webp",
+      "type": "image/png",
       "form_factor": "narrow",
       "label": "Schoolify Mobile App"
     }
