@@ -1590,9 +1590,157 @@ footer{background:var(--deep);border-top:1px solid rgba(255,255,255,.06);padding
 </footer>
 
 <script defer>
-const observer=new IntersectionObserver((e)=>{e.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');observer.unobserve(e.target)}})},{threshold:0.1});document.querySelectorAll('.reveal').forEach(e=>observer.observe(e));
-const menuBtn=document.getElementById('menuBtn');const mobileMenu=document.createElement('div');mobileMenu.className='mobile-menu';mobileMenu.id='mobileMenu';mobileMenu.setAttribute('role','dialog');mobileMenu.setAttribute('aria-modal','true');mobileMenu.setAttribute('aria-label','Mobile navigation menu');mobileMenu.innerHTML='<button class="mobile-close" id="menuClose" aria-label="Close menu">&#x2715;</button><a href="/">Home</a><a href="/index.html#features">Features</a><a href="/index.html#how-it-works">How It Works</a><a href="/index.html#pricing">Pricing</a>';document.body.appendChild(mobileMenu);const toggleMenu=(open)=>{mobileMenu.classList.toggle('open',open);menuBtn.setAttribute('aria-expanded',open);document.body.style.overflow=open?'hidden':'';if(open)mobileMenu.querySelector('a').focus();};menuBtn.addEventListener('click',()=>toggleMenu(!mobileMenu.classList.contains('open')));document.getElementById('menuClose').addEventListener('click',()=>toggleMenu(false));document.addEventListener('keydown',(e)=>{if(e.key==='Escape'&&mobileMenu.classList.contains('open'))toggleMenu(false);});mobileMenu.querySelectorAll('a').forEach(link=>link.addEventListener('click',()=>toggleMenu(false)));
-let ticking=false;window.addEventListener('scroll',()=>{if(!ticking){window.requestAnimationFrame(()=>{document.getElementById('navbar').classList.toggle('scrolled',window.scrollY>20);ticking=false;});ticking=true;}});
+// Scroll reveal
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) { entry.target.classList.add('visible'); observer.unobserve(entry.target); }
+  });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// Animated counters with scheduler.yield for INP optimization
+const counterObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const el = entry.target;
+      const target = parseFloat(el.dataset.count);
+      const isDecimal = target % 1 !== 0;
+      const duration = 2000;
+      const start = performance.now();
+      const update = (now) => {
+        const elapsed = now - start;
+        const progress = Math.min(elapsed / duration, 1);
+        const ease = 1 - Math.pow(1 - progress, 3);
+        const current = target * ease;
+        if (isDecimal) {
+          el.textContent = current.toFixed(1) + '%';
+        } else if (target >= 1000) {
+          el.textContent = Math.floor(current).toLocaleString() + '+';
+        } else {
+          el.textContent = Math.floor(current) + '+';
+        }
+        if (progress < 1) {
+          if ('scheduler' in window && 'yield' in scheduler) {
+            scheduler.yield().then(() => requestAnimationFrame(update));
+          } else {
+            requestAnimationFrame(update);
+          }
+        }
+      };
+      requestAnimationFrame(update);
+      counterObserver.unobserve(el);
+    }
+  });
+}, { threshold: 0.5 });
+document.querySelectorAll('[data-count]').forEach(el => counterObserver.observe(el));
+
+// FAQ accordion
+document.querySelectorAll('.faq-item').forEach(item => {
+  const btn = item.querySelector('.faq-question');
+  btn.addEventListener('click', () => {
+    const isActive = item.classList.contains('active');
+    document.querySelectorAll('.faq-item').forEach(i => {
+      i.classList.remove('active');
+      i.querySelector('.faq-question').setAttribute('aria-expanded', 'false');
+    });
+    if (!isActive) { item.classList.add('active'); btn.setAttribute('aria-expanded', 'true'); }
+  });
+});
+
+// Pricing tabs switching
+document.querySelectorAll('.pricing-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    const period = tab.dataset.period;
+    // Update tabs
+    document.querySelectorAll('.pricing-tab').forEach(t => {
+      t.classList.remove('active');
+      t.setAttribute('aria-selected', 'false');
+    });
+    tab.classList.add('active');
+    tab.setAttribute('aria-selected', 'true');
+    // Update panels
+    document.querySelectorAll('.pricing-panel').forEach(p => {
+      p.classList.remove('active');
+      p.style.display = 'none';
+    });
+    const panel = document.getElementById('panel-' + period);
+    if (panel) {
+      panel.classList.add('active');
+      panel.style.display = 'block';
+    }
+  });
+});
+
+// Currency switching
+document.querySelectorAll('.currency-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const currency = btn.dataset.currency;
+    const symbols = { PKR: 'Rs.', INR: '₹', USD: '$' };
+    // Update currency buttons
+    document.querySelectorAll('.currency-btn').forEach(b => {
+      b.classList.remove('active');
+      b.setAttribute('aria-pressed', 'false');
+    });
+    btn.classList.add('active');
+    btn.setAttribute('aria-pressed', 'true');
+    // Update all prices
+    document.querySelectorAll('.plan-price').forEach(priceEl => {
+      const val = priceEl.dataset[currency.toLowerCase()];
+      if (val) {
+        const symbol = symbols[currency] || 'Rs.';
+        // Get the suffix (e.g., /mo, /6mo, /yr, /student/mo)
+        const suffix = priceEl.querySelector('span');
+        let suffixText = suffix ? suffix.textContent : '';
+        if (priceEl.dataset.pkr === '5' || priceEl.dataset.pkr === '4' || priceEl.dataset.pkr === '3') {
+          // Enterprise per student pricing
+          priceEl.innerHTML = '<span class="currency-symbol">' + symbol + '</span>' + val + '<span>/student/mo</span>';
+        } else {
+          priceEl.innerHTML = '<span class="currency-symbol">' + symbol + '</span>' + val + (suffixText ? '<span>' + suffixText + '</span>' : '');
+        }
+      }
+    });
+  });
+});
+
+// Mobile menu
+const menuBtn = document.getElementById('menuBtn');
+const mobileMenu = document.createElement('div');
+mobileMenu.className = 'mobile-menu';
+mobileMenu.id = 'mobileMenu';
+mobileMenu.setAttribute('role', 'dialog');
+mobileMenu.setAttribute('aria-modal', 'true');
+mobileMenu.setAttribute('aria-label', 'Mobile navigation menu');
+mobileMenu.innerHTML = '<button class="mobile-close" id="menuClose" aria-label="Close menu">&#x2715;</button><a href="/">Home</a><a href="/index.html#features">Features</a><a href="/index.html#how-it-works">How It Works</a><a href="/index.html#pricing">Pricing</a><a href="https://wa.me/923018981055" style="color:#34d399" target="_blank" rel="noopener">Contact Us</a>';
+document.body.appendChild(mobileMenu);
+const toggleMenu = (open) => {
+  mobileMenu.classList.toggle('open', open);
+  menuBtn.setAttribute('aria-expanded', open);
+  document.body.style.overflow = open ? 'hidden' : '';
+  if (open) mobileMenu.querySelector('a').focus();
+};
+menuBtn.addEventListener('click', () => toggleMenu(!mobileMenu.classList.contains('open')));
+document.getElementById('menuClose').addEventListener('click', () => toggleMenu(false));
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && mobileMenu.classList.contains('open')) toggleMenu(false); });
+mobileMenu.addEventListener('keydown', (e) => {
+  if (e.key !== 'Tab') return;
+  const focusable = mobileMenu.querySelectorAll('a, button');
+  const first = focusable[0], last = focusable[focusable.length - 1];
+  if (e.shiftKey && document.activeElement === first) { last.focus(); e.preventDefault(); }
+  else if (!e.shiftKey && document.activeElement === last) { first.focus(); e.preventDefault(); }
+});
+mobileMenu.querySelectorAll('a').forEach(link => link.addEventListener('click', () => toggleMenu(false)));
+
+// Navbar scroll
+let ticking = false;
+window.addEventListener('scroll', () => {
+  if (!ticking) {
+    window.requestAnimationFrame(() => {
+      document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 20);
+      ticking = false;
+    });
+    ticking = true;
+  }
+});
 </script>
 </body>
 </html>
