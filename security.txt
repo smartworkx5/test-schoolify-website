@@ -1,0 +1,7 @@
+Contact: mailto:support.schoolify@gmail.com
+Contact: tel:+923018981055
+Expires: 2027-06-18T00:00:00Z
+Acknowledgments: https://schoolify.online/security-hall-of-fame
+Preferred-Languages: en, ur
+Canonical: https://schoolify.online/.well-known/security.txt
+Policy: https://schoolify.online/security-policy

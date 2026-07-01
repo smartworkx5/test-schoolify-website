@@ -1,0 +1,13 @@
+/* TEAM */
+Developer: Schoolify Team
+Site: https://schoolify.online
+Location: Islamabad, Pakistan
+
+/* THANKS */
+Name: Schoolify Community
+
+/* SITE */
+Last update: 2026-06-18
+Standards: HTML5, CSS3, JavaScript
+Components: Schema.org, Open Graph, Twitter Cards
+Software: School Management System

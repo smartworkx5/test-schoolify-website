@@ -22,21 +22,5 @@
   "categories": ["education", "business"],
   "lang": "en",
   "dir": "ltr",
-  "scope": "/",
-  "screenshots": [
-    {
-      "src": "/screenshot-dashboard.png",
-      "sizes": "1280x720",
-      "type": "image/png",
-      "form_factor": "wide",
-      "label": "Schoolify Dashboard"
-    },
-    {
-      "src": "/screenshot-mobile.png",
-      "sizes": "750x1334",
-      "type": "image/png",
-      "form_factor": "narrow",
-      "label": "Schoolify Mobile App"
-    }
-  ]
+  "scope": "/"
 }

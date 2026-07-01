@@ -1,0 +1,38 @@
+# Schoolify
+
+> Cloud-based School Management System (SaaS) for Pakistani schools and educational institutions.
+
+Schoolify is a complete school management platform built for Pakistani schools. It automates fee collection, attendance tracking, parent communication, result card generation, payroll management, and administrative workflows — all accessible from any device via the cloud.
+
+## Product
+
+- [Homepage](https://schoolify.online/)
+- [Features](https://schoolify.online/features/)
+- [Pricing](https://schoolify.online/pricing/)
+- [Contact](https://schoolify.online/contact/)
+- [Login / App](https://app.schoolify.online/)
+
+## Core Features
+
+- **Fee Management**: Automated fee collection, receipts, reminders, and reporting
+- **Attendance System**: Auto attendance with SMS/WhatsApp alerts to parents
+- **Result Cards**: Generate professional result cards and progress reports
+- **Payroll Management**: Staff salary processing and HR records
+- **Parent Communication**: WhatsApp integration, SMS alerts, parent portal
+- **Multi-language Support**: English, Urdu, Sindhi — with RTL layout
+- **AI Exam Generator**: Generate exam papers in Urdu, Sindhi, and English
+
+## Target Users
+
+Schools, colleges, and academies in Pakistan — particularly in Islamabad, Karachi, Lahore, and other urban centers.
+
+## Company
+
+- **Website**: https://schoolify.online
+- **Email**: support.schoolify@gmail.com
+- **Phone**: +92 301 8981055
+- **Location**: Islamabad, Pakistan
+
+## Pricing
+
+Subscription plans available monthly (1, 3, 6, and 12-month options). Contact for institutional pricing.
